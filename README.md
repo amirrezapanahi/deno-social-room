@@ -21,7 +21,7 @@ To run this project, you need to have Deno installed on your machine. Follow the
 3. Run the application using the Deno command:
 
    ```bash
-   deno run --allow-net app.ts
+   deno run --allow-net main.ts
    ```
 
 ## API Endpoints
