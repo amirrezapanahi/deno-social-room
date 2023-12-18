@@ -22,6 +22,15 @@ if (!result.ok) {
   console.error("Issue setting initial data");
 }
 
+const welcome = 
+`
+  Welcome to the Social Room!
+
+  Join the room: '/enter/<name>'
+  Leave the room: '/leave/<name>'
+
+`
+
 const router = new Router();
 
 router
@@ -33,9 +42,9 @@ router
 
     const data = await kv.get<Data>(["data"]);
     if (ipExistsInDb) {
-      ctx.response.body = { ...data.value, you: nameFromIp };
+      ctx.response.body = `${welcome} ${JSON.stringify({ ...data.value, you: nameFromIp })}`;
     } else {
-      ctx.response.body = data.value;
+      ctx.response.body = `${welcome} ${JSON.stringify(data.value)}`;
     }
   })
   .get("/enter/:name", async (ctx) => {
@@ -54,7 +63,7 @@ router
 
     //cant join more than once if IP exists
     if (ipExistsInDb) {
-      ctx.response.body = `You're already in the social room \n\n ${JSON.stringify({...data.value, you: nameFromIp})}`;
+      ctx.response.body = `${welcome} You're already in the social room \n\n ${JSON.stringify({...data.value, you: nameFromIp})}`;
       return;
     } else {
       const ipAdded = await kv.set([ip], nameToEnter);
@@ -77,10 +86,12 @@ router
         return;
       }
 
-      ctx.response.body = {
+      const uiData = {
         ...newData.value as DataWhenJoined,
         you: nameToEnter,
       };
+
+      ctx.response.body = `${welcome} ${JSON.stringify(uiData)}`
     }
   })
   .get("/leave/:name", async (ctx) => {
@@ -95,7 +106,7 @@ router
     const nameFromIp = (await kv.get<string>([ip])).value;
 
     if (nameFromIp !== nameToLeave){
-      ctx.response.body = `You can't just kick people out :) \n\n ${JSON.stringify(data.value)}`;
+      ctx.response.body = `${welcome} You can't just kick people out :) \n\n ${JSON.stringify({...data.value, you: nameFromIp})}`;
       return;
     }
 
@@ -116,9 +127,9 @@ router
       }
 
       const newData = await kv.get(["data"]);
-      ctx.response.body = newData.value as Data;
+      ctx.response.body = `${welcome}  ${JSON.stringify(newData.value as Data)}`;
     } else {
-      ctx.response.body = `You're not in the social room \n\n ${JSON.stringify(data.value)}`;
+      ctx.response.body = `${welcome} You're not in the social room \n\n ${JSON.stringify(data.value)}`;
       return;
     }
   });
