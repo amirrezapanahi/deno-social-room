@@ -42,9 +42,9 @@ router
 
     const data = await kv.get<Data>(["data"]);
     if (ipExistsInDb) {
-      ctx.response.body = `${welcome} ${JSON.stringify({ ...data.value, you: nameFromIp })}`;
+      ctx.response.body = `${welcome}${JSON.stringify({ ...data.value, you: nameFromIp })}`;
     } else {
-      ctx.response.body = `${welcome} ${JSON.stringify(data.value)}`;
+      ctx.response.body = `${welcome}${JSON.stringify(data.value)}`;
     }
   })
   .get("/enter/:name", async (ctx) => {
@@ -91,7 +91,7 @@ router
         you: nameToEnter,
       };
 
-      ctx.response.body = `${welcome} ${JSON.stringify(uiData)}`
+      ctx.response.body = `${welcome}${JSON.stringify(uiData)}`
     }
   })
   .get("/leave/:name", async (ctx) => {
