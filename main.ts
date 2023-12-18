@@ -24,10 +24,10 @@ if (!result.ok) {
 
 const welcome = 
 `
-  Welcome to the Social Room!
+Welcome to the Social Room!
 
-  Join the room: '/enter/<name>'
-  Leave the room: '/leave/<name>'
+Join the room: '/enter/<name>'
+Leave the room: '/leave/<name>'
 
 `
 
