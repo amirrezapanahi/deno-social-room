@@ -92,6 +92,12 @@ router
     }
 
     const nameFromIp = (await kv.get<string>([ip])).value;
+
+    if (nameFromIp !== nameToLeave){
+      ctx.response.body = "You can't just kick people out :)";
+      return;
+    }
+
     const ipExistsInDb = nameFromIp !== null;
 
     const data = await kv.get<Data>(["data"]);
