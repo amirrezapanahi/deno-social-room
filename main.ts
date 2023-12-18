@@ -63,7 +63,7 @@ router
 
     //cant join more than once if IP exists
     if (ipExistsInDb) {
-      ctx.response.body = `${welcome} You're already in the social room \n\n ${JSON.stringify({...data.value, you: nameFromIp})}`;
+      ctx.response.body = `${welcome}You're already in the social room \n\n${JSON.stringify({...data.value, you: nameFromIp})}`;
       return;
     } else {
       const ipAdded = await kv.set([ip], nameToEnter);
@@ -106,7 +106,7 @@ router
     const nameFromIp = (await kv.get<string>([ip])).value;
 
     if (nameFromIp !== nameToLeave){
-      ctx.response.body = `${welcome} You can't just kick people out :) \n\n ${JSON.stringify({...data.value, you: nameFromIp})}`;
+      ctx.response.body = `${welcome}You can't just kick people out :) \n\n${JSON.stringify({...data.value, you: nameFromIp})}`;
       return;
     }
 
@@ -127,9 +127,9 @@ router
       }
 
       const newData = await kv.get(["data"]);
-      ctx.response.body = `${welcome}  ${JSON.stringify(newData.value as Data)}`;
+      ctx.response.body = `${welcome}${JSON.stringify(newData.value as Data)}`;
     } else {
-      ctx.response.body = `${welcome} You're not in the social room \n\n ${JSON.stringify(data.value)}`;
+      ctx.response.body = `${welcome}You're not in the social room \n\n${JSON.stringify(data.value)}`;
       return;
     }
   });
